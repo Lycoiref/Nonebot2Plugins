@@ -10,19 +10,17 @@ from utils.utils import get_message_img
 
 # 真寻规范
 __zx_plugin_name__ = "消息防撤回"
-__plugin_usage = """
-                    usage：
-                    消息防撤回：
-                    当消息被撤回或收到闪照时自动触发；
-                    将撤回的消息/闪照发送给超级用户；
-                    ————麻麻再也不怕我错过群里的女装照片了！
-                """.strip()
+__plugin_usage__ = """
+usage：
+    消息防撤回：
+    当消息被撤回或收到闪照时自动触发；
+    将撤回的消息/闪照发送给超级用户；
+    ————麻麻再也不怕我错过群里的女装照片了！
+""".strip()
 __plugin_des__ = "保存撤回的消息，收到闪照时，将闪照发送给超级用户"
-__plugin_cmd__ = []
 __plugin_settings__ = {
-    "level": "1",
-    "default_status": True,
     "limit_superuser": True,
+    "cmd": ["防撤回", "闪照解析"],
 }
 __plugin_type__ = ("常规插件",)
 __plugin_version__ = 0.1
@@ -37,7 +35,6 @@ flash_pic = on_message(priority=1, block=False)  # 闪照事件监听
 @if_withdraw.handle()
 async def if_withdraw_handle(bot: Bot, event: GroupRecallNoticeEvent):  # 此处event不知道应该调用哪个，所以暂时不用
     if event.notice_type == "group_recall":
-        await if_withdraw.send(f"{event.user_id}撤回了一条消息")
         # 获取撤回消息的消息id
         recall_message_id = event.message_id
         # 获取撤回消息的消息内容
